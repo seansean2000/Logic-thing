@@ -1,0 +1,99 @@
+
+public class TruthTables {
+	private boolean[][] defaultTable=new boolean[2][4];//boolean[column][row] order
+	private boolean[][] mainDefaultTable;
+	private int numOfStatements;
+	
+	
+	public TruthTables(int num)
+	{
+		numOfStatements=num;
+		//create default truth table for 2 statements
+		if(num>=2)
+		{
+			for(int i=0; i<4; i++)
+			{
+				if(i<2)
+					defaultTable[0][i]=true;
+				else
+					defaultTable[0][i]=false;
+			}
+			boolean val=true;
+			for(int i=0; i<4; i++)
+			{
+				defaultTable[1][i]=val;
+				val=!val;
+			}
+			
+			//mainDefaultTable=new boolean[numOfStatements][(int)Math.pow(2, numOfStatements)];
+			mainDefaultTable=fillMainDefault(num-1);
+		}
+		
+		
+		
+		
+	}
+	
+	//cur is how many times repeated,rep is how many times to repeat
+	public boolean[][] fillMainDefault(int rep)
+	{
+		boolean[][] def=null;
+		if(rep==1)
+			def=defaultTable;
+		
+		else if(rep>1)
+		{
+			def=new boolean[fillMainDefault(rep-1).length+1][fillMainDefault(rep-1)[0].length*2];
+			
+			//fill the most left column with half T and half F
+			for(int r=0; r<def.length/2; r++)
+			{
+				def[0][r]=true;
+			}
+			for(int r=def.length/2; r<def.length; r++)
+			{
+				def[0][r]=false;
+			}
+			
+			//fill the rest of the table repeating the returned table twice
+			for(int c=1; c<def.length; c++)
+			{
+				for(int r=0; r<def[c].length/2; r++)
+				{
+					def[c][r]=fillMainDefault(rep-1)[c-1][r];
+				}
+				for(int r=def[c].length/2; r<def[c].length; r++)
+				{
+					def[c][r]=fillMainDefault(rep-1)[c-1][r-def[c].length/2];
+				}
+			}
+		}
+		
+		
+			
+		
+		return def;
+		
+	}
+	
+	public void print()
+	{
+		
+		for(int r=0; r<mainDefaultTable[0].length; r++)
+		{
+			for(int c=0; c<mainDefaultTable.length; c++)
+			{
+				if(mainDefaultTable[c][r])
+					System.out.print("T ");
+				
+				else
+					System.out.print("F ");
+			}
+			
+			System.out.println();
+		}
+			
+		
+	}
+	
+}

@@ -1,0 +1,9 @@
+
+public class Main {
+	public static void main(String[]args)
+	{
+		TruthTables a=new TruthTables(4));
+		a.print();
+	}
+
+}

@@ -1,0 +1,32 @@
+import java.util.Scanner;
+public class Main {
+	public static void main(String[]args)
+	{
+		Scanner keyboard=new Scanner(System.in);
+		
+		System.out.println("How many statements?");
+		int num=keyboard.nextInt();
+		keyboard.nextLine();
+		
+		System.out.println("Enter names for each statement, include space between each name");
+		String allNames=keyboard.nextLine();
+		
+		String[] names=new String[num];
+		int stringPos=0;
+		while(names[names.length-1]==null)
+		{
+				int firstPos=allNames.indexOf(' ');
+				names[stringPos]=allNames.substring(0, firstPos);
+				stringPos++;
+				allNames=allNames.substring(firstPos+1);
+		}
+		
+		TruthTables a=new TruthTables(keyboard.nextInt(), names);
+		
+		a.print();
+		
+		for(int i=0; i<names.length; i++)
+			System.out.print(names[i]+" ");
+	}
+
+}
